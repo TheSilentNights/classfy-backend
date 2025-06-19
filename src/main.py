@@ -47,7 +47,9 @@ def handle_data():
 
 @app.route('/api/classify',methods=['GET'])
 def classify():
-    return jsonify({"categeory":"222223333333333"})
+    classify = Classify(request.args.get('filename'))
+    result = classify.classify()
+    return jsonify({"categeory":result})
 
 @app.after_request
 def add_cors_headers(response):

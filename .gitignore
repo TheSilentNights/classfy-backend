@@ -5,8 +5,10 @@ src/output
 src/*.jpg
 test/
 
-bert/
-Bert-Chinese-Text-Classification-main/
+src/bert/bert_checkpoint
+src/bert/bert-base-chinese
+
+src/uploads
 
 __pycache__/
 *.py[cod]

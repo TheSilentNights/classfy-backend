@@ -1,3 +1,4 @@
+from flask import current_app
 from paddleocr import PaddleOCR
 
 # 初始化PaddleOCR实例（使用PP-OCRv4模型）
@@ -23,9 +24,11 @@ def recognize(image_path):
     for res in result:
         for text in res["rec_texts"]:
             result_text = result_text + text
+    # current_app.logger.info(result_text+"rerererererere")
+    print(result_text)
     return result_text
 
 if __name__ == "__main__":
     # 替换为你的图片路径
-    image_path = 'page_1.png'  # 或使用绝对路径如：r'C:\path\to\image.jpg'
+    image_path = "D:/web/project/classfy-backend/src/uploads/20250619232107_f0dacf0c520505d512ed9a9bdee021f.png"  # 或使用绝对路径如：r'C:/path/to/image.jpg'
     recognize(image_path)

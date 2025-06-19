@@ -10,7 +10,7 @@ class Classify:
 
     def classify(self):
         text_content = recognize(image_path=self.path_to_file)
-        bert_tuili.start(text_content)
+        return bert_tuili.start_classifier(text_content)
 
 
 if __name__ == '__main__':
