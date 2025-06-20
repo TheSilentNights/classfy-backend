@@ -4,17 +4,42 @@ import torch
 from src.bert.bert_get_data import BertClassifier
 
 
-def remove_last_sentence(text):
-    # 找到最后一个逗号的位置
-    last_period_index = text.rfind('.')
-    # 如果没有找到逗号，返回原始文本
-    if last_period_index == -1:
-        return text
-    # 删除最后一个逗号之前的内容，包括逗号
-    return text[:last_period_index]
+def get_last_clause(s):
+    if not s:
+        return ""
+
+    # 定义分句分隔符（包括中英文常见标点）
+    delimiters = set(',.!?;:，。！？；：')
+    n = len(s)
+    end_index = n - 1
+
+    # 步骤1：跳过末尾的分隔符和空白字符
+    while end_index >= 0 and (s[end_index] in delimiters or s[end_index].isspace()):
+        end_index -= 1
+
+    # 整个字符串都是分隔符或空白
+    if end_index < 0:
+        return ""
+
+    # 步骤2：向前查找最后一个分句的起始位置（即最近的分隔符）
+    start_index = 0
+    found_delimiter = False
+    for i in range(end_index, -1, -1):
+        if s[i] in delimiters:
+            start_index = i + 1  # 分句起始位置是分隔符的下一个字符
+            found_delimiter = True
+            break
+
+    # 步骤3：提取分句并去除首尾空白
+    last_clause = s[start_index:end_index + 1].strip()
+    print(last_clause)
+    return last_clause
+
+
 
 
 def start_classifier(text):
+    text2 = get_last_clause(text)
     bert_name = 'D:/web/project/classfy-backend/src/bert/bert-base-chinese'
 
 
@@ -32,7 +57,7 @@ def start_classifier(text):
         for row in f.readlines():
             real_labels.append(row.strip())
     # text = remove_last_sentence(text)
-    bert_input = tokenizer(text, padding='max_length',
+    bert_input = tokenizer(text2, padding='max_length',
                            max_length=35,
                            truncation=True,
                            return_tensors="pt")
@@ -42,6 +67,7 @@ def start_classifier(text):
     pred = output.argmax(dim=1)
 
     print(real_labels[pred.item()])
+    print(text2)
     return real_labels[pred.item()]
 
 # while True:

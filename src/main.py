@@ -6,6 +6,7 @@ from sqlalchemy.testing.plugin.plugin_base import logging
 
 import accept_image
 from src.classify import Classify
+from src.recommendProvider import get_recommendations
 
 app = Flask(__name__)
 CORS(app)  # 允许所有域跨域访问
@@ -49,7 +50,7 @@ def handle_data():
 def classify():
     classify = Classify(request.args.get('filename'))
     result = classify.classify()
-    return jsonify({"categeory":result})
+    return jsonify({"category":result,"recommend":get_recommendations(result)})
 
 @app.after_request
 def add_cors_headers(response):
@@ -58,4 +59,4 @@ def add_cors_headers(response):
     return response
 
 if __name__ == '__main__':
-    app.run(debug=True,port=7777)
+    app.run(port=7777)

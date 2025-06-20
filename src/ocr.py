@@ -30,5 +30,5 @@ def recognize(image_path):
 
 if __name__ == "__main__":
     # 替换为你的图片路径
-    image_path = "D:/web/project/classfy-backend/src/uploads/20250619232107_f0dacf0c520505d512ed9a9bdee021f.png"  # 或使用绝对路径如：r'C:/path/to/image.jpg'
+    image_path = "D:/web/project/classfy-backend/test/page_1.png"  # 或使用绝对路径如：r'C:/path/to/image.jpg'
     recognize(image_path)
